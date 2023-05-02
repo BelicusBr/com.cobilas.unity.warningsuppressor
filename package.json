@@ -1,0 +1,24 @@
+{
+  "name": "com.cobilas.unity.warningsuppressor",
+  "version": "1.0.0",
+  "description": "Supressor de avisos",
+  "type": "tool",
+  "displayName": "Warning Suppressor",
+  "unity": "2018.4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor.git"
+  },
+  "keywords": [
+    "Unity3d"
+  ],
+  "author": "Cobilas CTB",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/issues"
+  }
+}
