@@ -22,6 +22,11 @@ Enter CheckID in the field below 'No War' and end with ';'.
 exp:
 	IDE0017;IDE0018;IDE0019;
 exp[For object members]:
+	//~F:For field
+	//~P:For property(Including indexers)
+	//~T:For type(As class, delegate, enum, interface, and struct)
+	//~M:To method(Including constructors, deconstructors, and operators)
+	//~E:For event
 	IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest;IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest(System.Int32);
 ```
 ## PT-BR
@@ -47,5 +52,10 @@ Digite CheckID no campo abaixo de 'No War' e termine com ';'.
 exp:
 	IDE0017;IDE0018;IDE0019;
 exp[Para membros do objeto]:
+	//~F:Para campo
+	//~P:Para propriedade(Incluindo indexadores)
+	//~T:Para tipo(Como class, delegate, enum, interface e struct)
+	//~M:Para método(Incluindo construtores, desconstrutores e operadores)
+	//~E:Para evento
 	IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest;IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest(System.Int32);
 ```
