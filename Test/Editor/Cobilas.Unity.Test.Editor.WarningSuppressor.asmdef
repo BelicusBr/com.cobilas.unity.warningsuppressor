@@ -1,0 +1,21 @@
+{
+    "name": "Cobilas.Unity.Test.Editor.WarningSuppressor",
+    "references": [
+        "GUID:b93f844d45cfcc44fa2b0eed5c9ec6bb",
+        "GUID:478a2357cc57436488a56e564b08d223",
+        "GUID:678cf6c71dded5e44b070a5f305f2579"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
