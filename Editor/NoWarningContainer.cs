@@ -4,9 +4,15 @@ using System.Collections.Generic;
 [Serializable]
 public sealed class NoWarningContainer {
     public byte status;
+    [NonSerialized]
+    public ulong timer;
+    [NonSerialized]
+    public bool cancel;
+    [NonSerialized] 
+    public bool isCompleted;
     public bool showNoVisibles;
     public string globalNoWarning;
-    [NonSerialized] public bool isCompleted;
+
 
     public List<IndivNoWar> IndividualNoWarning;
 

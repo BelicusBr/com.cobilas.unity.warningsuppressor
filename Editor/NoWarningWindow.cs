@@ -2,7 +2,6 @@
 using UnityEditor;
 using UnityEngine;
 using System.Text;
-using System.Threading;
 using System.Collections;
 using UnityEditorInternal;
 using UnityEditor.PackageManager;
@@ -22,7 +21,6 @@ public class NoWarningWindow : EditorWindow {
     private Vector2 scrollView2;
     [SerializeField] 
     private NoWarningContainer container;
-    private CancellationTokenSource source;
 
     //IDE0015;IDE0051>~M:NoWarningWindow.tds;
     private string ContainerPath {
@@ -40,15 +38,14 @@ public class NoWarningWindow : EditorWindow {
             return;
         }
         container = JsonUtility.FromJson<NoWarningContainer>(File.ReadAllText(ContainerPath));
-        source = new CancellationTokenSource();
-        _ = EditorCoroutineUtility.StartCoroutine(GetAssembles(container, source), this);
+        _ = EditorCoroutineUtility.StartCoroutine(GetAssembles(this), this);
     }
 
     private void OnDisable()
         => Unload();
 
     private void OnDestroy() {
-        source.Cancel();
+        container.cancel = true;
         Unload();
     }
 
@@ -103,30 +100,35 @@ public class NoWarningWindow : EditorWindow {
 
     private void OnGUI() {
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(160f), GUILayout.ExpandHeight(true));
-        EditorGUI.BeginDisabledGroup(!container.isCompleted);
-        scrollView1 = EditorGUILayout.BeginScrollView(scrollView1);
-        if (GUILayout.Button(GUIContentTemp.bt_save))
-            OnDisable();
-        if (GUILayout.Button(GUIContentTemp.bt_applayNoWar))
-            ApplayNoWarning(container);
-        if (GUILayout.Button(GUIContentTemp.bt_globalNoWar))
-            container.status = 0;
-        if (GUILayout.Button(GUIContentTemp.bt_IndividualNoWar))
-            container.status = 1;
-        EditorGUILayout.EndScrollView();
-        EditorGUILayout.EndVertical();
-        scrollView2 = EditorGUILayout.BeginScrollView(scrollView2);
-        switch (container.status) {
-            case 0:
-                DrawGlobalNoWar(container);
-                break;
-            case 1:
-                DrawIndividualNoWar(container);
-                break;
-        }
-        EditorGUILayout.EndScrollView();
-        EditorGUI.EndDisabledGroup();
+            EditorGUILayout.BeginVertical(GUILayout.Width(160f));
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.ExpandHeight(true));
+                    EditorGUI.BeginDisabledGroup(!container.isCompleted);
+                        scrollView1 = EditorGUILayout.BeginScrollView(scrollView1);
+                            if (GUILayout.Button(GUIContentTemp.bt_save))
+                                OnDisable();
+                            if (GUILayout.Button(GUIContentTemp.bt_applayNoWar))
+                                ApplayNoWarning(container);
+                            if (GUILayout.Button(GUIContentTemp.bt_globalNoWar))
+                                container.status = 0;
+                            if (GUILayout.Button(GUIContentTemp.bt_IndividualNoWar))
+                                container.status = 1;
+                        EditorGUILayout.EndScrollView();
+                    EditorGUI.EndDisabledGroup();
+                EditorGUILayout.EndVertical();
+                GUILayout.Box(EditorGUIUtility.TrTempContent($"Timer: {container.timer}t"), GUIContentTemp.HelpBoxBlood);
+            EditorGUILayout.EndVertical();
+            EditorGUI.BeginDisabledGroup(!container.isCompleted);
+                scrollView2 = EditorGUILayout.BeginScrollView(scrollView2);
+                    switch (container.status) {
+                        case 0:
+                            DrawGlobalNoWar(container);
+                            break;
+                        case 1:
+                            DrawIndividualNoWar(container);
+                            break;
+                    }
+                EditorGUILayout.EndScrollView();
+            EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndHorizontal();
     }
 
@@ -182,44 +184,66 @@ public class NoWarningWindow : EditorWindow {
         EditorGUILayout.EndVertical();
     }
 
-    private IEnumerator GetAssembles(NoWarningContainer container, CancellationTokenSource source) {
+    private IEnumerator GetAssembles(NoWarningWindow container) {
         ListRequest search = Client.List(true);
-        container.isCompleted = false;
-        foreach (var item in container.IndividualNoWarning)
-            item.isVisible = container.isCompleted;
+        container.container.isCompleted = false;
+        foreach (var item in container.container.IndividualNoWarning)
+            item.isVisible = container.container.isCompleted;
+        container.container.timer = 0UL;
 
-        yield return new WaitWhile(() => !search.IsCompleted && !source.IsCancellationRequested);
-        if (!source.IsCancellationRequested) {
+        yield return new WaitWhile(() => {
+            if (++container.container.timer % 30 == 0)
+                container.Repaint();
+            return !search.IsCompleted && !container.container.cancel;
+        });
+        if (!container.container.cancel) {
             string pj_path = Path.GetDirectoryName(Application.dataPath);
             string[] paths = new string[1];
+            paths[0] = "Assets";
 
+            foreach (var item2 in AssetDatabase.FindAssets($"t:{nameof(AssemblyDefinitionAsset)}", paths)) {
+                paths[0] = AssetDatabase.GUIDToAssetPath(item2);
+                if (container.container.ContainsAssembly(Path.GetFileName(paths[0]))) {
+                    string name = Path.GetFileName(paths[0]);
+                    int index = container.container.IndexOf(name);
+                    container.container.IndividualNoWarning[index].isVisible = true;
+                    container.container.IndividualNoWarning[index].assemblyDefinitionName = name;
+                    container.container.IndividualNoWarning[index].assemblyDefinitionPath = paths[0];
+                } else {
+                    NoWarningContainer.IndivNoWar noWarning = new NoWarningContainer.IndivNoWar();
+                    noWarning.assemblyDefinitionPath = paths[0];
+                    noWarning.assemblyDefinitionName = Path.GetFileName(paths[0]);
+                    container.container.IndividualNoWarning.Add(noWarning);
+                }
+            }
 
             foreach (var item in search.Result) {
                 if (item.source != PackageSource.Embedded) continue;
                 paths[0] = item.resolvedPath.Replace(pj_path, string.Empty).TrimStart('/', '\\');
                 foreach (var item2 in AssetDatabase.FindAssets($"t:{nameof(AssemblyDefinitionAsset)}", paths)) {
                     paths[0] = AssetDatabase.GUIDToAssetPath(item2);
-                    if (container.ContainsAssembly(Path.GetFileName(paths[0]))) {
+                    if (container.container.ContainsAssembly(Path.GetFileName(paths[0]))) {
                         string name = Path.GetFileName(paths[0]);
-                        int index = container.IndexOf(name);
-                        container.IndividualNoWarning[index].isVisible = true;
-                        container.IndividualNoWarning[index].assemblyDefinitionName = name;
-                        container.IndividualNoWarning[index].assemblyDefinitionPath = paths[0];
+                        int index = container.container.IndexOf(name);
+                        container.container.IndividualNoWarning[index].isVisible = true;
+                        container.container.IndividualNoWarning[index].assemblyDefinitionName = name;
+                        container.container.IndividualNoWarning[index].assemblyDefinitionPath = paths[0];
                     } else {
                         NoWarningContainer.IndivNoWar noWarning = new NoWarningContainer.IndivNoWar();
                         noWarning.assemblyDefinitionPath = paths[0];
                         noWarning.assemblyDefinitionName = Path.GetFileName(paths[0]);
-                        container.IndividualNoWarning.Add(noWarning);
+                        container.container.IndividualNoWarning.Add(noWarning);
                     }
                 }
             }
 
-            foreach (var item in container.IndividualNoWarning) {
+            foreach (var item in container.container.IndividualNoWarning) {
                 string filePath = Path.Combine(pj_path, item.assemblyDefinitionPath);
                 if (!File.Exists(filePath) && File.Exists($"{filePath}.nowar.cs"))
                     File.Delete($"{filePath}.nowar.cs");
             }
-            container.isCompleted = true;
+            container.container.isCompleted = true;
+            container.Repaint();
         }
     }
 
@@ -233,5 +257,18 @@ public class NoWarningWindow : EditorWindow {
         internal static readonly GUIContent bt_IndividualNoWar = new GUIContent("Individual no warning", "Local warning suppression settings where each automaker can receive its own suppression.");
         internal static readonly GUIContent tg_applayglobalNoWar = new GUIContent("Applay global no warning",
             "If 'Apply no warning' is not checked, the global warning suppressor will be used.");
+        private static GUIStyle helpBoxBlood = (GUIStyle)null;
+
+        internal static GUIStyle HelpBoxBlood {
+            get {
+                if (helpBoxBlood == null) {
+                    helpBoxBlood = new GUIStyle(EditorStyles.helpBox);
+                    helpBoxBlood.fontSize = 12;
+                    helpBoxBlood.fontStyle = FontStyle.Bold;
+                    helpBoxBlood.alignment = TextAnchor.MiddleLeft;
+                }
+                return helpBoxBlood;
+            }
+        }
     }
 }
