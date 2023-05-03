@@ -1,10 +1,10 @@
 {
   "name": "com.cobilas.unity.warningsuppressor",
   "version": "1.0.0",
-  "description": "Supressor de avisos",
+  "description": "Supressor de avisos do editor de codigo para unity.",
   "type": "tool",
   "displayName": "Warning Suppressor",
-  "unity": "2018.4",
+  "unity": "2019.4",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,11 +14,17 @@
     "url": "git+https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor.git"
   },
   "keywords": [
-    "Unity3d"
+    "Unity3d",
+    "CSharp",
+    "UnityPackage",
+    "UnityTool"
   ],
   "author": "Cobilas CTB",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/issues"
+  },
+  "dependencies": {
+    "com.unity.editorcoroutines": "1.0.0"
   }
 }
