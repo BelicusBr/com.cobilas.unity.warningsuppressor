@@ -1,11 +1,10 @@
 ﻿# Warning Suppressor
-## Modo de uso
-### Global no warning
-Global no warning é usado para gerar supresão de avisos para todas as montagem.<br/>
+## Global no warning
+Global warning suppressor is used to generate warning suppression for all assemblies.<br/>
 ![](https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/blob/d2b57be92a2dd9332202a302c6032e22d1e3caae/Documentation~/Image/UseGlobalNoWar.png)<br/>
-Insira CheckID no campo abaixo de No War e termine com ';'.<br/>
+Enter CheckID in the field below 'No War' and end with ';'.<br/>
 ![](https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/blob/d2b57be92a2dd9332202a302c6032e22d1e3caae/Documentation~/Image/UseGlobalNoWar2.png)<br/>
 ```
-	exp:
-		IDE0017;IDE0018;IDE0019;
+exp:
+	IDE0017;IDE0018;IDE0019;
 ```
