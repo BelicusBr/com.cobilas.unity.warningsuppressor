@@ -1,6 +1,6 @@
 {
   "name": "com.cobilas.unity.warningsuppressor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Supressor de avisos do editor de codigo para unity.",
   "type": "tool",
   "displayName": "Warning Suppressor",
@@ -19,7 +19,7 @@
     "UnityPackage",
     "UnityTool"
   ],
-  "author": "Cobilas CTB",
+  "author": "BélicusBr",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/issues"
