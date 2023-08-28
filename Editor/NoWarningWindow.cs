@@ -25,7 +25,7 @@ public class NoWarningWindow : EditorWindow {
     //IDE0015;IDE0051>~M:NoWarningWindow.tds;
     private string ContainerPath {
         get {
-            string folderPath = Path.Combine(Application.persistentDataPath, "NoWar");
+            string folderPath = Path.Combine(Path.GetDirectoryName(Application.dataPath), "NoWar");
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
             return Path.Combine(folderPath, "NoWar.json");
@@ -35,7 +35,7 @@ public class NoWarningWindow : EditorWindow {
     private void OnEnable() {
         if (!File.Exists(ContainerPath)) {
             container = new NoWarningContainer();
-            return;
+            Unload();
         }
         container = JsonUtility.FromJson<NoWarningContainer>(File.ReadAllText(ContainerPath));
         _ = EditorCoroutineUtility.StartCoroutine(GetAssembles(this), this);
@@ -88,9 +88,9 @@ public class NoWarningWindow : EditorWindow {
             foreach (var item in modules) {
                 if (item.Contains(">")) {
                     string[] submodules = item.Split(new char[] { '>' }, System.StringSplitOptions.RemoveEmptyEntries);
-                    builder.AppendFormat("[assembly: SuppressMessage(\"\", \"{0}\", Scope = \"member\", Target = \"{1}\")]", submodules[0].Trim(), submodules[1].Trim());
+                    builder.AppendFormat("[assembly: SuppressMessage(\"\", \"{0}\", Scope = \"member\", Target = \"{1}\")]\r\n", submodules[0].Trim(), submodules[1].Trim());
                 } else {
-                    builder.AppendFormat("[assembly: SuppressMessage(\"\", \"{0}\", Scope = \"module\")]", item.Trim());
+                    builder.AppendFormat("[assembly: SuppressMessage(\"\", \"{0}\", Scope = \"module\")]\r\n", item.Trim());
                 }
             }
             byte[] bytes = Encoding.UTF8.GetBytes(builder.ToString());
