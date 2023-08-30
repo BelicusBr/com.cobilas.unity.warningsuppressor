@@ -1,3 +1,7 @@
+# ChangeLog
+## [1.1.0] - 29/08/2023
+### Changed
+- Ouve uma alteração no autor da liceça MIT.
 ## [1.0.3] - 28/08/2023
 ### Fixed
 - Agora o arquivo `NoWar.json` é gravado na pasta raiz do projeto.
