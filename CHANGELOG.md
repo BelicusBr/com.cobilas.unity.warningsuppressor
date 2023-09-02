@@ -1,4 +1,9 @@
 # ChangeLog
+## [1.2.0] - 02/09/2023
+### Added
+- Foi adicionado uma documentação.
+### Changed
+- O arquivo `README.md` foi alterado.
 ## [1.1.0] - 29/08/2023
 ### Changed
 - Ouve uma alteração no autor da liceça MIT.

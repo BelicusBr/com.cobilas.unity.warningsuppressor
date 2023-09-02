@@ -1,7 +1,10 @@
 {
   "name": "com.cobilas.unity.warningsuppressor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Supressor de avisos do editor de codigo para unity.",
+  "licensesUrl": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/blob/main/LICENSE.md",
+  "changelogUrl": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/blob/main/CHANGELOG.md",
+  "documentationUrl": "https://github.com/BelicusBr/com.cobilas.unity.warningsuppressor/wiki/Warning-Suppressor-wiki",
   "type": "tool",
   "displayName": "Warning Suppressor",
   "unity": "2018.4",
