@@ -1,5 +1,10 @@
 ﻿# Warning Suppressor
 ## EN-US
+### Installation
+Installation using scoped registries</br>
+![](Documentation~/Image/install_npm_NoWarng.png)</br>
+Installation using add package from git url</br>
+![](Documentation~/Image/install_github_NoWarng.png)
 ### Global no warning
 Global warning suppressor is used to generate warning suppression for all assemblies.<br/>
 ![](Documentation~/Image/UseGlobalNoWar.png)<br/>
@@ -30,6 +35,11 @@ exp[For object members]:
 	IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest;IDE0051>~M:NameSpaceTest.ClasseTest.MethodTest(System.Int32);
 ```
 ## PT-BR
+### Instalação
+Instalação usando scoped registries</br>
+![](Documentation~/Image/install_npm_NoWarng.png)</br>
+Instalação usando add package from git url</br>
+![](Documentation~/Image/install_github_NoWarng.png)
 ### Global no warning
 O supressor de aviso global é usado para gerar supressão de aviso para todos os assemblies.<br/>
 ![](Documentation~/Image/UseGlobalNoWar.png)<br/>
