@@ -1,4 +1,7 @@
 # ChangeLog
+## [1.2.1] - 08/09/2023
+### Fixed
+- Correção na documentação.
 ## [1.2.0] - 02/09/2023
 ### Added
 - Foi adicionado uma documentação.
