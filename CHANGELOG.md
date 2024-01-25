@@ -1,22 +1,22 @@
 # ChangeLog
 ## [1.2.1] - 08/09/2023
-### Fixed
-- Correção na documentação.
+###Fixed
+- Correction in documentation.
 ## [1.2.0] - 02/09/2023
 ### Added
-- Foi adicionado uma documentação.
+- Documentation has been added.
 ### Changed
-- O arquivo `README.md` foi alterado.
+- The `README.md` file has been changed.
 ## [1.1.0] - 29/08/2023
 ### Changed
-- Ouve uma alteração no autor da liceça MIT.
+- You hear a change in the author of the MIT license.
 ## [1.0.3] - 28/08/2023
-### Fixed
-- Agora o arquivo `NoWar.json` é gravado na pasta raiz do projeto.
-- Agora na criação do arquivo nowar os atributos `assembly` são escritos linha á linha em vez de uma só linha.
+###Fixed
+- Now the `NoWar.json` file is written to the project root folder.
+- Now when creating the nowar file, the `assembly` attributes are written line by line instead of a single line.
 ## [1.0.2] - 03/05/2023
-### Fixed
-- O campo privado `[t:CancellationTokenSource]NoWarning.source` foi substituido por `[t:bool]NoWarning.cancel` por provocar referencia nula inesperadamente apos fechar a janela.
-- Agora o Suppressor Warning verifica a pasta Assets em busca por Assemblies.
+###Fixed
+- The private field `[t:CancellationTokenSource]NoWarning.source` was replaced by `[t:bool]NoWarning.cancel` as it caused an unexpected null reference after closing the window.
+- Suppressor Warning now checks the Assets folder for Assemblies.
 ## [1.0.0] - 01/05/2023
-- Pacote `com.cobilas.unity.warningsuppressor` criado.
+- Package `com.cobilas.unity.warningsuppressor` created.
